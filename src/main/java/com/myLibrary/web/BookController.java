@@ -53,6 +53,7 @@ public class BookController {
         book.setSummary(b.getSummary());
         book.setAuthor(b.getAuthor());
         book.setPublisher(b.getPublisher());
+        book.setPhoto(b.getPhoto());
         book.setCategory(libraryService.getCategory(b.getCategory().getId()));
 
         if(Objects.isNull(libraryService.saveBook(book))) {
@@ -90,7 +91,7 @@ public class BookController {
         try {
             Book book = libraryService.readBook(id).get();
             if(book.getPhoto() == null) book.setPhoto("unknown.png");
-            file = Files.readAllBytes(Paths.get(System.getProperty("user.home") + "" + book.getPhoto()));
+            file = Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/trainings/library/" + book.getPhoto()));
         }
         catch (Exception e) {
             log.error("Problème avec le chargement de l'image correspondant au livre d'id : {}", id);
@@ -103,7 +104,7 @@ public class BookController {
         try {
             Book book = libraryService.readBook(id).get();
             book.setPhoto(file.getOriginalFilename());
-            Files.write(Paths.get(System.getProperty("user.home")+"" + book.getPhoto()),file.getBytes());
+            Files.write(Paths.get(System.getProperty("user.home")+ "/trainings/library/" + book.getPhoto()),file.getBytes());
             libraryService.saveBook(book);
         }
         catch(Exception e) {

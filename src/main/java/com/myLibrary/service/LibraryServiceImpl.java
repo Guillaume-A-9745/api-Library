@@ -65,4 +65,8 @@ public class LibraryServiceImpl implements LibraryService{
     public Category getCategory(Long id) {
         return categoryRepository.getById(id);
     }
+
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
+    }
 }
