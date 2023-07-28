@@ -6,10 +6,15 @@ import com.myLibrary.dao.ComicRepository;
 import com.myLibrary.entites.Book;
 import com.myLibrary.entites.Category;
 import com.myLibrary.entites.Comic;
+import com.myLibrary.security.entities.AppRole;
+import com.myLibrary.security.entities.AppUser;
+import com.myLibrary.security.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.ArrayList;
 
 @SpringBootApplication
 public class MyLibraryApplication implements CommandLineRunner {
@@ -19,6 +24,8 @@ public class MyLibraryApplication implements CommandLineRunner {
 	private BookRepository bookRepository;
 	@Autowired
 	private ComicRepository comicRepository;
+	@Autowired
+	public AccountService accountService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyLibraryApplication.class, args);
@@ -26,7 +33,24 @@ public class MyLibraryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		//generateUsersAndRoles();
 		//generateData();
+	}
+
+	private void generateUsersAndRoles() {
+		accountService.saveUser(new AppUser(null,"Guillaume","1234",new ArrayList<>()));
+		accountService.saveUser(new AppUser(null,"Jean","1234",new ArrayList<>()));
+		accountService.saveUser(new AppUser(null,"Marie","1234",new ArrayList<>()));
+		accountService.saveUser(new AppUser(null,"Louis","1234",new ArrayList<>()));
+
+		accountService.saveRole(new AppRole(null,"ADMIN"));
+		accountService.saveRole(new AppRole(null,"USER"));
+
+		accountService.addRoleToUser("Guillaume","ADMIN");
+		accountService.addRoleToUser("Guillaume","USER");
+		accountService.addRoleToUser("Jean","USER");
+		accountService.addRoleToUser("Marie","USER");
+		accountService.addRoleToUser("Louis","USER");
 	}
 
 	private void generateData() {
